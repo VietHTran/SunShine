@@ -24,12 +24,6 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        String data=getIntent().getStringExtra(Intent.EXTRA_TEXT);
-        TextView textView=(TextView)findViewById(R.id.string_data1);
-        if (textView==null) {
-        } else {
-            textView.setText(data);
-        }
     }
 
 
@@ -67,6 +61,11 @@ public class DetailActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+            Intent intent= getActivity().getIntent();
+            if (intent!=null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                String data=intent.getStringExtra(Intent.EXTRA_TEXT);
+                ((TextView)rootView.findViewById(R.id.string_data1)).setText(data);
+            }
             return rootView;
         }
     }
