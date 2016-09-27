@@ -32,8 +32,19 @@ public class ForecastFragment extends Fragment {
     ArrayAdapter<String> mForecastAdapter;
     ListView listView;
     Intent detail;
-    String s;
     public ForecastFragment() {
+    }
+
+    private  void updateWeather() {
+        FetchWeatherTask fwt= new FetchWeatherTask();
+        String s = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+        fwt.execute(s);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -52,9 +63,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id= item.getItemId();
         if (id==R.id.action_refresh) {
-            FetchWeatherTask fwt= new FetchWeatherTask();
-            s = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
-            fwt.execute(s);
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -65,9 +74,6 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
         mForecastAdapter= new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview, new ArrayList<String>());
-        FetchWeatherTask fwt= new FetchWeatherTask();
-        s = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
-        fwt.execute(s);
         LayoutParams lp = new LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);

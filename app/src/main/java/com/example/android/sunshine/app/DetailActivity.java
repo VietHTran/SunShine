@@ -57,7 +57,6 @@ public class DetailActivity extends ActionBarActivity {
         @Override
         public void onCreate(Bundle saveInstanceState) {
             super.onCreate(saveInstanceState);
-            Log.v("Test","Here goes2");
             setHasOptionsMenu(true);
         }
         /*
