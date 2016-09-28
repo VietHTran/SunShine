@@ -1,7 +1,9 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -48,8 +50,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent= new Intent(this,SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_map) {
+            //Get postal code from setting
+            String s= PreferenceManager.getDefaultSharedPreferences(this)
+                    .getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+            //Open Map App that go to postal code location
+            Intent intent= new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("geo:0,0?q="+s));
+            //Check if s is found
+            if (intent.resolveActivity(getPackageManager())!=null) {
+                startActivity(intent);
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
