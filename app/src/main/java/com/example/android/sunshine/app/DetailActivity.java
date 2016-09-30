@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
     }
 
 
@@ -75,13 +77,14 @@ public class DetailActivity extends ActionBarActivity {
 
         @Override
         public void onCreate(Bundle saveInstanceState) {
+            setHasOptionsMenu(true);
             super.onCreate(saveInstanceState);
         }
 
         @Override
         public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
             inflater.inflate(R.menu.detailfragment, menu);
+            super.onCreateOptionsMenu(menu, inflater);
             MenuItem menuItem = menu.findItem(R.id.action_share);
             ShareActionProvider mShareActionProvider =(ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
             if (mShareActionProvider!=null) {
