@@ -16,12 +16,16 @@
 
 package com.example.android.sunshine.app;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +35,7 @@ public class DetailActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v("Test","sup bro13");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
@@ -69,23 +74,64 @@ public class DetailActivity extends ActionBarActivity {
      */
     public static class DetailFragment extends Fragment {
 
+        private ShareActionProvider mShareActionProvider;
+        private final String HASHTAGSUNSHINE="#SunshineApp";
+        private String mForecastStr;
         public DetailFragment() {
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            super.onCreateOptionsMenu(menu,inflater);
+            inflater.inflate(R.menu.detailfragment,menu);
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_share));
+            setShareIntent();
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id=item.getItemId();
+            if (id==R.id.action_share) {
+
+            }
+            return true;
+        }
+
+        private void setShareIntent() {
+            //Indicate
+            Intent intent= new Intent(android.content.Intent.ACTION_SEND);
+            //Prevent activity sharing to from being placed on the activity stack
+            //=> If jump out during share --> Resume --> Switch to this activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            intent.putExtra(Intent.EXTRA_TEXT,mForecastStr+" "+HASHTAGSUNSHINE);
+            //Let android know you only share text
+            intent.setType("text/plain");
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(intent);
+            }
+            //startActivity(Intent.createChooser(intent, getString(R.string.action_share)));
+        }
+
+        private String getExtraTextFromMain() {
+            Intent intent = getActivity().getIntent();
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                return intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
+            return  "";
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
+            mForecastStr=getExtraTextFromMain();
             // The detail Activity called via intent.  Inspect the intent for forecast data.
-            Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-                ((TextView) rootView.findViewById(R.id.detail_text))
-                        .setText(forecastStr);
-            }
-
+            ((TextView) rootView.findViewById(R.id.detail_text))
+                    .setText(mForecastStr);
             return rootView;
         }
     }
