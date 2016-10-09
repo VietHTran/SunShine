@@ -51,7 +51,6 @@ import java.util.ArrayList;
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
 public class ForecastFragment extends Fragment {
-
     private ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {
