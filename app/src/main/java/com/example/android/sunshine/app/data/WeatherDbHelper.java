@@ -18,6 +18,7 @@ package com.example.android.sunshine.app.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
 import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
@@ -35,7 +36,17 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
     public WeatherDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
+    private String createLocationTable() {
+        //create table location (location_id integer primary key, location_setting text not null, city_name text not null,
+        //coord_lat real not null, coord_long real not null, unique (location_setting) on conflict replace);
+        String s="CREATE TABLE "+LocationEntry.TABLE_NAME+ " ("+
+                LocationEntry._ID+" INTEGER PRIMARY KEY," +
+                LocationEntry.COLUMN_LOCATION_SETTING+ " TEXT UNIQUE NOT NULL,"+
+                LocationEntry.COLUMN_CITY_NAME+" TEXT NOT NULL, " +
+                LocationEntry.COLUMN_COORD_LAT+" REAL NOT NULL, "+
+                LocationEntry.COLUMN_COORD_LONG+" REAL NOT NULL );";
+        return s;
+    }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " + WeatherEntry.TABLE_NAME + " (" +
@@ -70,6 +81,9 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 WeatherEntry.COLUMN_LOC_KEY + ") ON CONFLICT REPLACE);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
+        final String SQL_CREATE_LOCATION_TABLE = createLocationTable();
+        //Log.v("Testing","SQLQUERY: "+SQL_CREATE_LOCATION_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);
     }
 
     @Override
