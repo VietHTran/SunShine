@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine.app.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -112,22 +113,27 @@ public class TestDb extends AndroidTestCase {
     */
     public void testLocationTable() {
         // First step: Get reference to writable database
-
+        SQLiteDatabase database= new WeatherDbHelper(this.mContext).getReadableDatabase();
         // Create ContentValues of what you want to insert
-        // (you can use the createNorthPoleLocationValues if you wish)
-
+        ContentValues contentValues= new ContentValues();
+        contentValues=TestUtilities.createNorthPoleLocationValues();
         // Insert ContentValues into database and get a row ID back
-
+        long rowId=database.insert(WeatherContract.LocationEntry.TABLE_NAME,null,contentValues);
         // Query the database and receive a Cursor back
-
-        // Move the cursor to a valid database row
-
-        // Validate data in resulting Cursor with the original ContentValues
-        // (you can use the validateCurrentRecord function in TestUtilities to validate the
-        // query if you like)
-
-        // Finally, close the cursor and database
-
+        Cursor cursor;
+        if (rowId!=-1) {
+            cursor=database.query(WeatherContract.LocationEntry.TABLE_NAME,null,null,null,null,null,null);
+            // Move the cursor to a valid database row
+            assertTrue("Error: No records returned from query",cursor.moveToFirst());
+            // Validate data in resulting Cursor with the original ContentValues
+            // (you can use the validateCurrentRecord function in TestUtilities to validate the
+            // query if you like)
+            TestUtilities.validateCursor("ErrorCursor",cursor,contentValues);
+            // Finally, close the cursor and database
+            cursor.close();
+            database.close();
+            assertFalse("Error: More than one record returned",cursor.moveToNext());
+        }
     }
 
     /*
