@@ -89,11 +89,9 @@ public class WeatherContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        /*
-            Student: Fill in this buildWeatherLocation function
-         */
         public static Uri buildWeatherLocation(String locationSetting) {
-            return null;
+            Uri uri= WeatherEntry.CONTENT_URI.buildUpon().appendPath(locationSetting).build();
+            return uri;
         }
 
         public static Uri buildWeatherLocationWithStartDate(
