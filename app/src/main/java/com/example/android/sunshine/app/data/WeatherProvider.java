@@ -260,7 +260,10 @@ public class WeatherProvider extends ContentProvider {
         // Student: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
         // handle.  If it doesn't match these, throw an UnsupportedOperationException.
         int matcher=sUriMatcher.match(uri);
-        int rowId=-1;
+        if (selection==null) {
+            selection="1";
+        }
+        int rowId=0;
         switch (matcher) {
             case WEATHER: {
                 rowId=database.delete(WeatherContract.WeatherEntry.TABLE_NAME,selection,selectionArgs);
@@ -278,7 +281,8 @@ public class WeatherProvider extends ContentProvider {
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         // Oh, and you should notify the listeners here.
-        getContext().getContentResolver().notifyChange(uri, null);
+        if (rowId!=0)
+            getContext().getContentResolver().notifyChange(uri, null);
         // Student: return the actual rows deleted
         return rowId;
     }
@@ -317,7 +321,8 @@ public class WeatherProvider extends ContentProvider {
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         // Oh, and you should notify the listeners here.
-        getContext().getContentResolver().notifyChange(uri, null);
+        if (rowId!=0)
+            getContext().getContentResolver().notifyChange(uri, null);
         // Student: return the actual rows deleted
         return rowId;
     }
