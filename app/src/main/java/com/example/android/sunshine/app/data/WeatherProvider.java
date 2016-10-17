@@ -206,7 +206,12 @@ public class WeatherProvider extends ContentProvider {
             }
             // "location"
             case LOCATION: {
-                retCursor = mOpenHelper.getReadableDatabase().query(WeatherContract.LocationEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                try {
+                    retCursor = mOpenHelper.getReadableDatabase().query(WeatherContract.LocationEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                } catch (NullPointerException e) {
+                    retCursor=null;
+                    e.printStackTrace();
+                }
                 break;
             }
 
