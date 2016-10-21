@@ -227,7 +227,9 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             // add to database
             if ( cVVector.size() > 0 ) {
                 // Student: call bulkInsert to add the weatherEntries to the database here
-                inserted =mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI,(ContentValues[])cVVector.toArray());
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
             }
             Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
         } catch (JSONException e) {
@@ -268,16 +270,23 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
+            final String API_KEY_PARAM = "appid";
+            /////////////////////////////////////////////////////////////////////
+            //                                                                 //
+            //  Please copy your API key into the constant below               //
+            //                                                                 //
+            ////////////////////////////////////////////////////////////////////
+            final String API_KEY="";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, params[0])
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                    .appendQueryParameter(API_KEY_PARAM,API_KEY)
                     .build();
 
             URL url = new URL(builtUri.toString());
-
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
