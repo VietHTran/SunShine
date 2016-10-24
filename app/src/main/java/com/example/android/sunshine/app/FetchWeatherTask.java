@@ -233,19 +233,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 // Student: call bulkInsert to add the weatherEntries to the database here
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-//                mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
-//            }
-//            String sortOrder=WeatherEntry.COLUMN_DATE+" ASC";
-//            Uri weatherForLocationUri=WeatherEntry.buildWeatherLocationWithStartDate(locationSetting,System.currentTimeMillis());
-//            Cursor cursor=mContext.getContentResolver().query(weatherForLocationUri,null,null,null,sortOrder);
-//
-//            cVVector= new Vector<ContentValues>(cursor.getCount());
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    ContentValues cv = new ContentValues();
-//                    DatabaseUtils.cursorRowToContentValues(cursor,cv);
-//                    cVVector.add(cv);
-//                } while (cursor.moveToNext());
                 inserted=mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI,cvArray);
             }
             Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
@@ -293,7 +280,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY="";
+            final String API_KEY="da8d66a4c7a83dd40a0f72c4dd977a9e";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, params[0])
@@ -351,14 +338,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 }
             }
         }
-
-//        try {
-//            getWeatherDataFromJson(forecastJsonStr, locationQuery);
-//        } catch (JSONException e) {
-//            Log.e(LOG_TAG, e.getMessage(), e);
-//            e.printStackTrace();
-//        }
-        // This will only happen if there was an error getting or parsing the forecast.
         return null;
     }
 }
