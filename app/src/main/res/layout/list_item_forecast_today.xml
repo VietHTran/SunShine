@@ -17,21 +17,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/list_item_date_textview"
             android:textSize="@dimen/abc_text_size_body_2_material"
-            android:layout_marginBottom="16dp"
-            android:text="Today, June 14"/>
+            android:layout_marginBottom="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_large_material"
             android:id="@+id/list_item_high_textview"
-            android:layout_marginBottom="6dp"
-            android:text="21&#176;"/>
+            android:layout_marginBottom="6dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_title_material"
-            android:id="@+id/list_item_low_textview"
-            android:text="8&#176;"/>
+            android:id="@+id/list_item_low_textview"/>
     </LinearLayout>
     <LinearLayout
         android:layout_height="wrap_content"
@@ -44,13 +41,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_icon"
-            android:layout_marginBottom="22dp"
-            android:src="@drawable/ic_launcher"/>
+            android:layout_marginBottom="22dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:id="@+id/list_item_forecast_textview"
-            android:text="CLEAR"/>
+            android:id="@+id/list_item_forecast_textview"/>
     </LinearLayout>
 </LinearLayout>
