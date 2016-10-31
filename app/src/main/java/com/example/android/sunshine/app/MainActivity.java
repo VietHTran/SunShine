@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new ForecastFragment(),FORECASTFRAGMENT_TAG)
                     .commit();
         }
+        Log.v("test","thisisupdate");
     }
     private void updateLocation() {
         mLocation= PreferenceManager
