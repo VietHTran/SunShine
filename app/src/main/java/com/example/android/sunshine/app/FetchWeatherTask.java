@@ -280,7 +280,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY=" ";
+            final String API_KEY="";
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, params[0])
                     .appendQueryParameter(FORMAT_PARAM, format)
