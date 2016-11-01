@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
@@ -31,6 +32,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
+            WeatherContract.WeatherEntry.COLUMN_DEGREES,
+            WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE
     };
     private static final int DETAIL_LOADER = 0;
     private static final int COL_WEATHER_ID = 0;
@@ -38,6 +43,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int COL_WEATHER_DESC = 2;
     private static final int COL_WEATHER_MAX_TEMP = 3;
     private static final int COL_WEATHER_MIN_TEMP = 4;
+    private static final int COL_WEATHER_WIND_SPEED = 5;
+    private static final int COL_WEATHER_DEGREES = 6;
+    private static final int COL_WEATHER_HUMIDITY = 7;
+    private static final int COL_WEATHER_PRESSURE = 8;
 
     private final String HASHTAGSUNSHINE="#SunshineApp";
     private String mForecastStr;
@@ -113,13 +122,37 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             return;
         }
         boolean isMetric=Utility.isMetric(getActivity());
+        String friendlyDate=Utility.getFriendlyDayString(getActivity(),cursor.getLong(COL_WEATHER_DATE));
         String date=Utility.formatDate(cursor.getLong(COL_WEATHER_DATE));
         String description=cursor.getString(COL_WEATHER_DESC);
         String maxTemp=Utility.formatTemperature(getActivity(),cursor.getDouble(COL_WEATHER_MAX_TEMP),isMetric);
         String minTemp=Utility.formatTemperature(getActivity(),cursor.getDouble(COL_WEATHER_MIN_TEMP),isMetric);
-        mForecastStr=date+" - "+description+" - "+maxTemp+"/"+minTemp;
-        TextView textView=(TextView)getView().findViewById(R.id.detail_text);
-        textView.setText(mForecastStr);
+        String wind=Utility.getFormattedWind(getActivity(),cursor.getFloat(COL_WEATHER_WIND_SPEED),cursor.getFloat(COL_WEATHER_DEGREES));
+        float pressure=cursor.getFloat(COL_WEATHER_PRESSURE);
+        float humidity=cursor.getFloat(COL_WEATHER_HUMIDITY);
+        String pressureStr=getActivity().getString(R.string.format_pressure,pressure);
+        String humidityStr=getActivity().getString(R.string.format_humidity,humidity);
+
+        TextView friendlyDateView=(TextView)getView().findViewById(R.id.list_item_friendly_date_textview);
+        TextView dateView=(TextView)getView().findViewById(R.id.list_item_date_textview);
+        TextView descriptionView=(TextView)getView().findViewById(R.id.list_item_forecast_textview);
+        TextView maxTempView=(TextView)getView().findViewById(R.id.list_item_high_textview);
+        TextView minTempView=(TextView)getView().findViewById(R.id.list_item_low_textview);
+        TextView windView=(TextView)getView().findViewById(R.id.list_item_wind_textview);
+        TextView humidityView=(TextView)getView().findViewById(R.id.list_item_humidity_textview);
+        TextView pressureView=(TextView)getView().findViewById(R.id.list_item_pressure_textview);
+        ImageView iconView=(ImageView)getView().findViewById(R.id.list_item_icon);
+
+        friendlyDateView.setText(friendlyDate);
+        dateView.setText(date);
+        descriptionView.setText(description);
+        maxTempView.setText(maxTemp);
+        minTempView.setText(minTemp);
+        windView.setText(wind);
+        humidityView.setText(humidityStr);
+        pressureView.setText(pressureStr);
+        iconView.setImageResource(R.drawable.ic_launcher);
+
         setShareIntent();
     }
 }

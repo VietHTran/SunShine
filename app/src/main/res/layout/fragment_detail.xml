@@ -23,7 +23,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:id="@+id/list_item_day_textview"
+                    android:id="@+id/list_item_friendly_date_textview"
                     android:textSize="@dimen/abc_text_size_large_material"
                     android:text="TODAY">
                 </TextView>
