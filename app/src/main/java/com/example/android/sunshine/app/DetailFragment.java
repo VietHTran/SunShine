@@ -153,6 +153,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         pressureView.setText(pressureStr);
         iconView.setImageResource(R.drawable.ic_launcher);
 
+        mForecastStr= String.format("%s - %s - %s/%s", date, description, maxTemp, minTemp);
+
         setShareIntent();
     }
 }
