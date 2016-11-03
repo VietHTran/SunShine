@@ -35,7 +35,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
             WeatherContract.WeatherEntry.COLUMN_DEGREES,
             WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
-            WeatherContract.WeatherEntry.COLUMN_PRESSURE
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
     };
     private static final int DETAIL_LOADER = 0;
     private static final int COL_WEATHER_ID = 0;
@@ -47,6 +48,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int COL_WEATHER_DEGREES = 6;
     private static final int COL_WEATHER_HUMIDITY = 7;
     private static final int COL_WEATHER_PRESSURE = 8;
+    private static final int COL_WEATHER_WEATHER_ID = 9;
 
     private final String HASHTAGSUNSHINE="#SunshineApp";
     private String mForecastStr;
@@ -132,6 +134,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         float humidity=cursor.getFloat(COL_WEATHER_HUMIDITY);
         String pressureStr=getActivity().getString(R.string.format_pressure,pressure);
         String humidityStr=getActivity().getString(R.string.format_humidity,humidity);
+        int weatherID=cursor.getInt(COL_WEATHER_WEATHER_ID);
+        int imageID=Utility.getArtResourceForWeatherCondition(weatherID);
 
         TextView friendlyDateView=(TextView)getView().findViewById(R.id.list_item_friendly_date_textview);
         TextView dateView=(TextView)getView().findViewById(R.id.list_item_date_textview);
@@ -151,7 +155,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         windView.setText(wind);
         humidityView.setText(humidityStr);
         pressureView.setText(pressureStr);
-        iconView.setImageResource(R.drawable.ic_launcher);
+        iconView.setImageResource(imageID);
 
         mForecastStr= String.format("%s - %s - %s/%s", date, description, maxTemp, minTemp);
 

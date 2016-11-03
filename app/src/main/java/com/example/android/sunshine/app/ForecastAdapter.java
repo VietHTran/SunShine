@@ -96,9 +96,16 @@ public class ForecastAdapter extends CursorAdapter {
         // our view is pretty simple here --- just a text view
         // we'll keep the UI functional with a simple (and slow!) binding.
         // Read weather icon ID from cursor
-        int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+        int viewType=getItemViewType(cursor.getPosition());
+        int weatherId=cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
+        int imageId;
+        if (viewType==VIEW_TYPE_TODAY) {
+            imageId=Utility.getArtResourceForWeatherCondition(weatherId);
+        } else {
+            imageId=Utility.getIconResourceForWeatherCondition(weatherId);
+        }
         // Use placeholder image for now
-        viewHolder.iconView.setImageResource(R.drawable.ic_launcher);
+        viewHolder.iconView.setImageResource(imageId);
 
         String date= Utility.getFriendlyDayString(context,cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         viewHolder.dateView.setText(date);
