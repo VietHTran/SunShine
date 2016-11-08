@@ -116,7 +116,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle bundle= getArguments();
-        if (savedInstanceState!=null) {
+        if (bundle!=null) {
             mUri=bundle.getParcelable(DETAIL_URI);
         }
 
@@ -134,22 +134,19 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v(LOG_TAG, "In onCreateLoader");
-        Intent intent = getActivity().getIntent();
-        if (intent == null || intent.getData() == null) {
-            return null;
-        }
-
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
-        return new CursorLoader(
-                getActivity(),
-                intent.getData(),
-                DETAIL_COLUMNS,
-                null,
-                null,
-                null
-        );
+       if (mUri!=null) {
+           // Now create and return a CursorLoader that will take care of
+           // creating a Cursor for the data being displayed.
+           return new CursorLoader(
+                   getActivity(),
+                   mUri,
+                   DETAIL_COLUMNS,
+                   null,
+                   null,
+                   null
+           );
+       }
+        return null;
     }
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {

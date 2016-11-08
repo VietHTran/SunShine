@@ -12,15 +12,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_friendly_date_textview"
-            android:textSize="@dimen/abc_text_size_large_material"
-            android:text="TODAY">
+            android:textSize="@dimen/abc_text_size_large_material">
         </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_date_textview"
-            android:textSize="@dimen/abc_text_size_large_material"
-            android:text="June 24">
+            android:textSize="@dimen/abc_text_size_large_material">
         </TextView>
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,16 +35,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_high_textview"
-                    android:textSize="@dimen/abc_text_size_headline_material"
-                    android:text="21&#176;">
+                    android:textSize="@dimen/abc_text_size_headline_material">
                 </TextView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_low_textview"
                     android:textSize="@dimen/abc_text_size_large_material"
-                    android:layout_marginTop="8dp"
-                    android:text="8&#176;">
+                    android:layout_marginTop="8dp">
                 </TextView>
             </LinearLayout>
             <LinearLayout
@@ -59,15 +55,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_icon"
-                    android:layout_marginBottom="22dp"
-                    android:src="@drawable/ic_launcher"/>
+                    android:layout_marginBottom="22dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:id="@+id/list_item_forecast_textview"
-                    android:textSize="@dimen/abc_text_size_large_material"
-                    android:text="Sunny"/>
+                    android:textSize="@dimen/abc_text_size_large_material"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
@@ -75,24 +69,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/list_item_humidity_textview"
             android:textSize="@dimen/abc_text_size_medium_material"
-            android:layout_marginTop="16dp"
-            android:text="Humidity 84%">
+            android:layout_marginTop="16dp">
         </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_wind_textview"
             android:textSize="@dimen/abc_text_size_medium_material"
-            android:layout_marginTop="8dp"
-            android:text="Wind: 6km/h NW">
+            android:layout_marginTop="8dp">
         </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_pressure_textview"
             android:layout_marginTop="8dp"
-            android:textSize="@dimen/abc_text_size_medium_material"
-            android:text="Pressure: 1014 kPa" >
+            android:textSize="@dimen/abc_text_size_medium_material" >
         </TextView>
     </LinearLayout>
 </ScrollView>
