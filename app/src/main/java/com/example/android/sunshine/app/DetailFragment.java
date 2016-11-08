@@ -2,6 +2,7 @@ package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -50,11 +51,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int COL_WEATHER_HUMIDITY = 7;
     private static final int COL_WEATHER_PRESSURE = 8;
     private static final int COL_WEATHER_WEATHER_ID = 9;
+    static final String DETAIL_URI = "URI";
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
 
     private final String HASHTAGSUNSHINE="#SunshineApp";
     private String mForecastStr;
+    private Uri mUri;
     public DetailFragment() {
         setHasOptionsMenu(true);
     }
@@ -90,6 +93,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
     }
 
+    void onLocationChanged( String newLocation ) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
+    }
+
     private String getExtraTextFromMain() {
         Intent intent = getActivity().getIntent();
         if (intent != null) {
@@ -101,6 +115,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle= getArguments();
+        if (savedInstanceState!=null) {
+            mUri=bundle.getParcelable(DETAIL_URI);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         return rootView;
     }

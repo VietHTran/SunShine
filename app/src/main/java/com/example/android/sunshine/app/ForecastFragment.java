@@ -73,7 +73,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int LOADER_ID=0;
     public ForecastFragment() {
     }
-
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // The ArrayAdapter will take data from a source and
@@ -141,24 +140,26 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                            ));
-                    startActivity(intent);
+                    Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                            locationSetting, cursor.getLong(COL_WEATHER_DATE));
+                    //Activity get is current MainActivity
+                    Callback cb=(Callback)getActivity();
+                    cb.onItemSelected(weatherForLocationUri);
+                    //The code below is unecessary as it is already done by mainActivity
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+//                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
+//                            ));
+//                    startActivity(intent);
                 }
             }
         });
         listView.setAdapter(mForecastAdapter);
         return rootView;
     }
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        updateWeather();
-//    }
 
     private void updateWeather() {
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
@@ -170,4 +171,21 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         updateWeather();
         getLoaderManager().restartLoader(LOADER_ID,null,this);
     }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
+
+//    @Override
+//    public void onItemSelected(Uri dateUri) {
+//
+//    }
 }
