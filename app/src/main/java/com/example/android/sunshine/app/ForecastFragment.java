@@ -73,6 +73,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int LOADER_ID=0;
     private static final String POS_TAG="position";
     public int mPosition;
+    private boolean mUseTodayLayout;
+    static final String PANE_TAG="pane";
     private ListView mListView;
     public ForecastFragment() {
     }
@@ -142,6 +144,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -188,6 +191,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().restartLoader(LOADER_ID,null,this);
     }
 
+    public void setPaneMode(boolean twoPane) {
+        mUseTodayLayout=!twoPane;
+        if (mForecastAdapter!=null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
