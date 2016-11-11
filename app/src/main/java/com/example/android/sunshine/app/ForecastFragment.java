@@ -71,7 +71,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
     private static final int LOADER_ID=0;
+    private static final String POS_TAG="position";
+    public int mPosition;
+    private ListView mListView;
     public ForecastFragment() {
+    }
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        if (mPosition!=-1) {
+            bundle.putInt(POS_TAG,mPosition);
+        }
     }
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -89,6 +99,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mForecastAdapter.swapCursor(cursor);
+        mListView.smoothScrollToPosition(mPosition);
     }
 
     @Override
@@ -129,12 +140,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        mPosition=-1;
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long l) {
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
@@ -147,8 +159,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             locationSetting, cursor.getLong(COL_WEATHER_DATE));
                     //Activity get is current MainActivity
                     Callback cb=(Callback)getActivity();
+                    mPosition=position;
                     cb.onItemSelected(weatherForLocationUri);
-                    //The code below is unecessary as it is already done by mainActivity
 //                    Intent intent = new Intent(getActivity(), DetailActivity.class)
 //                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
 //                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
@@ -157,7 +169,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 }
             }
         });
-        listView.setAdapter(mForecastAdapter);
+        mListView.setAdapter(mForecastAdapter);
+        if (savedInstanceState!=null && savedInstanceState.containsKey(POS_TAG)) {
+            mPosition=savedInstanceState.getInt(POS_TAG);
+            mListView.smoothScrollToPosition(mPosition);
+        }
         return rootView;
     }
 
