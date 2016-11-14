@@ -120,6 +120,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
                     .replace(R.id.weather_detail_container, dF, DETAILFRAGMENT_TAG)
                     .commit();
         } else {
+            getSupportActionBar().setElevation(0f);
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(dateUri);
             startActivity(intent);
