@@ -11,11 +11,11 @@
     android:background="@drawable/touch_selector">
     <FrameLayout
         android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:gravity="center">
+        android:layout_width="60dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:id="@+id/list_item_icon">
         </ImageView>
     </FrameLayout>
@@ -43,6 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
