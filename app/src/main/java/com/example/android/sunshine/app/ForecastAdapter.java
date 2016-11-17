@@ -109,14 +109,16 @@ public class ForecastAdapter extends CursorAdapter {
         } else {
             imageId=Utility.getIconResourceForWeatherCondition(weatherId);
         }
-        // Use placeholder image for now
-        viewHolder.iconView.setImageResource(imageId);
 
         String date= Utility.getFriendlyDayString(context,cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         viewHolder.dateView.setText(date);
 
         String des=cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(des);
+
+        // Use placeholder image for now
+        viewHolder.iconView.setImageResource(imageId);
+        viewHolder.iconView.setContentDescription(des);
 
         // Read user preference for metric or imperial temperature units
         boolean isMetric = Utility.isMetric(context);
@@ -127,5 +129,6 @@ public class ForecastAdapter extends CursorAdapter {
 
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
         viewHolder.lowTempView.setText(Utility.formatTemperature(context,low, isMetric));
+
     }
 }

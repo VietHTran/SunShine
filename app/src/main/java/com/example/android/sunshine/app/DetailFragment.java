@@ -187,6 +187,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         pressureView.setText(pressureStr);
         iconView.setImageResource(imageID);
 
+        iconView.setContentDescription(description);
+
         mForecastStr= String.format("%s - %s - %s/%s", date, description, maxTemp, minTemp);
 
         setShareIntent();
