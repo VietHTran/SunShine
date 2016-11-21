@@ -46,8 +46,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
         </activity>
-        <service android:name=".service.SunshineService"/>
-        <receiver android:name=".service.SunshineService$AlarmReceiver" android:enabled="true"/>
 
 
         <!--Implement a SynceAdapter section-->

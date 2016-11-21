@@ -44,7 +44,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
 import com.example.android.sunshine.app.data.WeatherContract;
-import com.example.android.sunshine.app.service.SunshineService;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 
 import java.io.IOException;

@@ -72,7 +72,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY="da8d66a4c7a83dd40a0f72c4dd977a9e";
+            final String API_KEY="";
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
@@ -260,7 +260,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 cVVector.toArray(cvArray);
                 inserted=getContext().getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI,cvArray);
             }
-            Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
