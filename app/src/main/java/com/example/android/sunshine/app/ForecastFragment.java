@@ -183,11 +183,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-//        AlarmManager manager=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-//        Intent alarmIntent= new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-//        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
-//        PendingIntent pendingIntent=PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
-//        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5*1000,pendingIntent);
         SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
