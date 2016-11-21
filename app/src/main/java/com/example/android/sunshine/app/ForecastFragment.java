@@ -45,6 +45,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.service.SunshineService;
+import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -170,11 +171,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     Callback cb=(Callback)getActivity();
                     mPosition=position;
                     cb.onItemSelected(weatherForLocationUri);
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-//                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-//                            ));
-//                    startActivity(intent);
                 }
             }
         });
@@ -187,11 +183,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        AlarmManager manager=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent= new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5*1000,pendingIntent);
+//        AlarmManager manager=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+//        Intent alarmIntent= new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+//        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
+//        PendingIntent pendingIntent=PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+//        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5*1000,pendingIntent);
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     public void onLocationChanged() {
