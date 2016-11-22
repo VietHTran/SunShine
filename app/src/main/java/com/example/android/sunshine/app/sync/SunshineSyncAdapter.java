@@ -97,7 +97,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY="da8d66a4c7a83dd40a0f72c4dd977a9e";
+            final String API_KEY="";
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
@@ -284,6 +284,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
                 inserted=getContext().getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI,cvArray);
+                getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI
+                        , WeatherContract.WeatherEntry.COLUMN_DATE+" <=?"
+                        ,new String[]{Long.toString(dayTime.setJulianDay(julianStartDay-1))});
                 notifyWeather();
             }
         } catch (JSONException e) {
