@@ -97,7 +97,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY=" ";
+            final String API_KEY="da8d66a4c7a83dd40a0f72c4dd977a9e";
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
@@ -411,8 +411,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     }
     private void notifyWeather() {
         Context context = getContext();
-        //checking the last update and notify if it' the first of the day
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        //checking the last update and notify if it' the first of the day
+        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+        boolean displayNotifications = prefs.getBoolean(displayNotificationsKey,
+                Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
+        if (!displayNotifications) {
+            return;
+        }
+        //checking the last update and notify if it' the first of the day
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
         long lastSync = prefs.getLong(lastNotificationKey, 0);
 
@@ -437,8 +445,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 // Define the text of the forecast.
                 String contentText = String.format(context.getString(R.string.format_notification),
                         desc,
-                        Utility.formatTemperature(context, high,Utility.isMetric(getContext())),
-                        Utility.formatTemperature(context, low,Utility.isMetric(getContext())));
+                        Utility.formatTemperature(context, high,Utility.isMetric(context)),
+                        Utility.formatTemperature(context, low,Utility.isMetric(context)));
 
                 //build your notification here.
 
@@ -449,18 +457,18 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 editor.commit();
 
                 Log.v("test","notificationCall");
-                Intent intent=new Intent(getContext(), MainActivity.class);
-                TaskStackBuilder builder= TaskStackBuilder.create(getContext());
+                Intent intent=new Intent(context, MainActivity.class);
+                TaskStackBuilder builder= TaskStackBuilder.create(context);
                 builder.addNextIntent(intent);
                 PendingIntent pendingIntent = builder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-                Notification notification= new NotificationCompat.Builder(getContext())
+                Notification notification= new NotificationCompat.Builder(context)
                         .setContentTitle(title)
                         .setContentText(contentText)
                         .setSmallIcon(iconId)
                         .setContentIntent(pendingIntent)
                         .build();
                 NotificationManager mNotificationManager =
-                        (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(WEATHER_NOTIFICATION_ID,notification);
             }
         }
