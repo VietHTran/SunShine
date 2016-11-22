@@ -97,7 +97,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             //  Please copy your API key into the constant below               //
             //                                                                 //
             ////////////////////////////////////////////////////////////////////
-            final String API_KEY="";
+            final String API_KEY=" ";
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
